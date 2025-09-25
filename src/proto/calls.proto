@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package calls;
+
+service CallsService {
+  rpc MakeCall (CallRequest) returns (CallResponse);
+}
+
+message CallRequest {
+  string hello = 1;
+}
+
+message CallResponse {
+  string message = 2;
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package audio_file;
+
+service AudioFileService {
+  rpc Create (CreateAudioFileDto) returns (AudioFile) {}
+  rpc FindAll (Empty) returns (AudioFileList) {}
+  rpc FindOne (FindOneRequest) returns (AudioFile) {}
+  rpc Remove (RemoveRequest) returns (RemoveResponse) {}
+}
+
+message Empty {}
+
+message AudioFile {
+  int32 id = 1;
+  int32 user_id = 2;
+  string file_name = 3;
+  string original_name = 4;
+  string file_path = 5;
+  int32 file_size = 6;
+  int32 duration_sec = 7;
+  string format = 8;
+  bool is_active = 9;
+  string createdAt = 10;
+  string updatedAt = 11;
+}
+
+message AudioFileList {
+  repeated AudioFile items = 1;
+}
+
+message CreateAudioFileDto {
+  int32 user_id = 1;
+  string file_name = 2;
+  string original_name = 3;
+  string file_path = 4;
+  int32 duration_sec = 5;
+  string format = 6;
+  int32 file_size = 7;
+}
+
+message FindOneRequest {
+  int32 id = 1;
+}
+
+message RemoveRequest {
+  int32 id = 1;
+}
+
+message RemoveResponse {
+  bool success = 1;
+  string message = 2;
+}

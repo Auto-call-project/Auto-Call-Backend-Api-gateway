@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package users;
+
+service UsersService {
+  rpc signUpUsers (createUserDto) returns (CreateUserResponse);
+  rpc findAllUsers (Empty) returns (FindAllUsersResponse);
+  rpc findOneUser (GiveIdByUser) returns (FindOneUserResponse);
+  rpc deleteOneUser (GiveIdByUser) returns (removeResponse);
+  rpc updateUser (UpdateUserDto) returns (CreateUserResponse); // ✅ update
+}
+
+message Empty {}
+
+message createUserDto {
+  string fullname = 1;
+  string username = 2;
+  string email = 3;
+  string phone = 4;
+  string password = 5;
+  repeated int32 roles = 6; 
+}
+
+message CreateUserResponse {
+  string id = 1;
+  string fullname = 2;
+  string username = 3;
+  string email = 4;
+  string phone = 5;
+  string password_hash = 6;
+  bool is_active = 7;
+  string refresh_token_hash = 8;
+  int32 failed_login_attempts = 9;
+  string last_login_at = 10;
+  string createdAt = 11;
+  string updatedAt = 12;
+}
+
+message FindAllUsersResponse {
+  repeated CreateUserResponse users = 1;
+}
+
+message GiveIdByUser {
+  int32 id = 1;
+}
+
+message FindOneUserResponse {
+  CreateUserResponse user = 1;
+}
+
+message removeResponse {
+  string message = 1;
+}
+
+// PATCH uchun: faqat kelgan fieldlar yangilanadi
+message UpdateUserDto {
+  int32 id = 1;                  // qaysi user update qilinadi (majburiy)
+  optional string fullname = 2;  // optional → faqat kelgan bo‘lsa yangilanadi
+  optional string username = 3;
+  optional string email = 4;
+  optional string phone = 5;
+  optional bool is_active = 7;
+  repeated int32 roles = 8;
+}

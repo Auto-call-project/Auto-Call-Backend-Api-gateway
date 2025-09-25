@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package roles;
+
+// Service definition
+service RolesService {
+  rpc CreateRole (CreateRoleDto) returns (Role);
+  rpc UpdateRole (UpdateRoleDto) returns (Role);
+  rpc FindOneRole (GetRoleById) returns (Role);
+  rpc FindAllRoles (Empty) returns (RolesList);
+  rpc DeleteRole (GetRoleById) returns (DeleteResponse);
+}
+
+message Empty {}
+
+// Role model
+message Role {
+  int32 id = 1;             // PrimaryGeneratedColumn
+  string name = 2;          // Column
+  string description = 3;   // Column
+  bool isActive = 4;        // default: true
+  string updatedAt = 5;     // ISO date string
+  string createdAt = 6;     // ISO date string
+}
+
+// Create Role request
+message CreateRoleDto {
+  string name = 1;
+  string description = 2;
+  bool isActive = 3;
+}
+
+// Update Role request
+message UpdateRoleDto {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  bool isActive = 4;
+}
+
+// Helpers
+message GetRoleById {
+  int32 id = 1;
+}
+
+message RolesList {
+  repeated Role roles = 1;
+}
+
+message DeleteResponse {
+  string message = 1;
+}
+

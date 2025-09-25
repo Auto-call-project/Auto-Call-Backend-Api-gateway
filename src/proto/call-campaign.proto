@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package callcampaign;
+
+// Kampaniya holatlari uchun enum
+enum CampaignStatus {
+  DRAFT = 0;
+  RUNNING = 1;
+  PAUSED = 2;
+  COMPLETED = 3;
+  CANCELED = 4;
+}
+
+// Kampaniya entitysi (DB dagi model asosida)
+message CallCampaign {
+  int32 id = 1;
+  int32 user_id = 2;
+  int32 excel_file_id = 3;
+  int32 audio_file_id = 4;
+  int32 provider_id = 5;
+  string name = 6;
+  string description = 7;
+  int32 total_numbers = 8;
+  int32 completed_calls = 9;
+  int32 successfull_calls = 10;
+  int32 failed_calls = 11;
+  CampaignStatus status = 12;
+  int32 priority = 13;
+  int32 max_concurrent_calls = 14;
+  int32 retry_limit = 15;
+  int32 call_timeout_sec = 16;
+  string start_time = 17;
+  string end_time = 18;
+  string createdAt = 19;
+  string updatedAt = 20;
+}
+
+// Create DTO ga mos request
+message CreateCallCampaignRequest {
+  int32 user_id = 1;
+  int32 excel_file_id = 2;
+  int32 audio_file_id = 3;
+  int32 provider_id = 4;
+  string name = 5;
+  string description = 6;
+  string start_time = 7;
+  string end_time = 8;
+}
+
+// Update DTO
+message UpdateCallCampaignRequest {
+  int32 id = 1;                    // qaysi kampaniyani update qilish
+  string name = 2;
+  string description = 3;
+  CampaignStatus status = 4;
+  int32 priority = 5;
+  int32 max_concurrent_calls = 6;
+  int32 retry_limit = 7;
+  int32 call_timeout_sec = 8;
+  string start_time = 9;
+  string end_time = 10;
+}
+
+// Oddiy javoblar uchun wrapper
+message RemoveRequest {
+  int32 id = 1;
+}
+
+message RemoveResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message FindOneRequest {
+  int32 id = 1;
+}
+
+message Empty {}
+
+// Kampaniyalar ro‘yxati
+message CallCampaignList {
+  repeated CallCampaign items = 1;
+}
+
+// Service
+service CallCampaignService {
+  rpc Create (CreateCallCampaignRequest) returns (CallCampaign);
+  rpc Update (UpdateCallCampaignRequest) returns (CallCampaign);
+  rpc FindAll (Empty) returns (CallCampaignList);
+  rpc FindOne (FindOneRequest) returns (CallCampaign);
+  rpc Remove (RemoveRequest) returns (RemoveResponse);
+}

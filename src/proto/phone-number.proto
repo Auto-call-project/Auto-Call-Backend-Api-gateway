@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package phone_number;
+
+// Telefon raqamni ifodalovchi message
+message PhoneNumber {
+  int32 excel_file_id = 2;
+  string phone_number = 3;
+  string fullname = 4;
+  string additional_info = 5;
+  int32 row_number = 6;
+  string country_code = 7;
+  bool is_valid = 8;
+}
+
+// Bir nechta telefon raqamlarni yuborish uchun request
+message CreateManyPhoneNumbersRequest {
+  repeated PhoneNumber phone_numbers = 1;
+}
+
+// Javob sifatida qaytadigan message
+message CreateManyPhoneNumbersResponse {
+  string message = 1;
+}
+
+// Service definition
+service PhoneNumberService {
+  rpc CreateMany (CreateManyPhoneNumbersRequest) returns (CreateManyPhoneNumbersResponse);
+}
